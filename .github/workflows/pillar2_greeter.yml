@@ -1,0 +1,30 @@
+name: Pillar 2 - PR Greeter Bot
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  welcome-triage:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # This gives the bot permission to comment
+    steps:
+      - name: Post Welcome Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `
+            👋 **Welcome to the \`mesa-examples\` gallery!** Thank you for your contribution, @${context.actor}!
+            
+            🤖 **Automated Checks are running...**
+            Our CI pipeline is currently spinning up an isolated environment to test your model against the latest version of Mesa.
+            
+            While you wait, please ensure you have filled out the PR template checklist above (especially the screenshot!). A human maintainer will review your model soon. Keep up the great work! 🚀
+            `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            })
