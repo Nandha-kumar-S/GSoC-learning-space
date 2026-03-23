@@ -1,0 +1,24 @@
+name: Pillar 1 - Matrix Isolation
+
+on: [push, workflow_dispatch]
+
+jobs:
+  test-models:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # This is CRITICAL. It keeps the "Good" test running even if "Bad" fails.
+      matrix:
+        model: [stable_model, zombie_model]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Isolated Install & Run
+        run: |
+          cd models/${{ matrix.model }}
+          pip install -r requirements.txt
+          python model.py
