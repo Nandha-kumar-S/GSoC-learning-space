@@ -3,6 +3,7 @@ Thank you for sharing your model! To keep our gallery running smoothly, please c
 
 ### ✅ The Checklist
 - [ ] **Dependency Isolation:** I have included a `requirements.txt` inside my model's specific folder.
+- [ ] **Metadata:** I have included a `metadata.json` inside my model's specific folder.
 - [ ] **Run Instructions:** I have included a `README.md` explaining exactly how to run it.
 - [ ] **Visual Proof:** I have attached a screenshot or GIF of the model running below.
 
