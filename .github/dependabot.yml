@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # 1. Maintain the GitHub Actions infrastructure
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "infrastructure"
+
+  # 2. Maintain the Python dependencies for the Stable Model
+  - package-ecosystem: "pip"
+    directory: "/models/stable_model"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "stable_model"

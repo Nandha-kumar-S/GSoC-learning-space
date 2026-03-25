@@ -1,0 +1,16 @@
+# ==========================================================
+# MESA EXAMPLES: CODE OWNERSHIP MAP
+# This file automatically requests reviews and assigns issues 
+# to the original authors of specific models.
+# ==========================================================
+
+# 1. Core Infrastructure (Owned by Maintainers)
+/.github/                  @jackiekazil @EwoutH
+/build_gallery.py          @jackiekazil @EwoutH
+
+# 2. Community Models (Owned by Original Authors)
+/models/stable_model/    @Nandha-kumar-S
+/models/zombie_model/      @Nandha-kumar-S
+
+# (In the final GSoC project, this section will be dynamically 
+# updated by a bot whenever a new model is merged!)
