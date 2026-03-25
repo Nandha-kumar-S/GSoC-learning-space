@@ -1,0 +1,8 @@
+{
+  "name": "Stable Model",
+  "author": "@Nandha-kumar-S",
+  "domain": "Stable Domain",
+  "complexity": "Intermediate",
+  "features": ["MultiGrid", "Solara UI"],
+  "description": "A stable model for testing purposes."
+}
