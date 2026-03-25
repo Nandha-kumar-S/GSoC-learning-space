@@ -3,12 +3,24 @@ name: Pillar 1 - Matrix Isolation
 on: [push, workflow_dispatch]
 
 jobs:
+  discover-models:
+    runs-on: ubuntu-latest
+    outputs:
+      models: ${{ steps.set-matrix.outputs.models }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          models=$(ls -d models/*/ | xargs -n1 basename | tr '\n' ' ' | jq -R -c 'split(" ")[:-1]')
+          echo "models=$models" >> $GITHUB_OUTPUT
+
   test-models:
+    needs: discover-models
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # This is CRITICAL. It keeps the "Good" test running even if "Bad" fails.
       matrix:
-        model: [stable_model, zombie_model]
+        model: ${{ fromJson(needs.discover-models.outputs.models) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -20,5 +32,9 @@ jobs:
       - name: Isolated Install & Run
         run: |
           cd models/${{ matrix.model }}
-          pip install -r requirements.txt
-          python model.py
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          if [ -f model.py ]; then
+            python model.py
+          fi
