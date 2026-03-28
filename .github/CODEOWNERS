@@ -5,8 +5,8 @@
 # ==========================================================
 
 # 1. Core Infrastructure (Owned by Maintainers)
-/.github/                  @jackiekazil @EwoutH
-/build_gallery.py          @jackiekazil @EwoutH
+/.github/                  @maintainers
+/build_gallery.py          @maintainers
 
 # 2. Community Models (Owned by Original Authors)
 /models/stable_model/    @Nandha-kumar-S
