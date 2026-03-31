@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa Examples Gallery — Mesa .1 documentation</title>
+    
+    <!-- PyData Sphinx Theme inspired styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* PyData Sphinx Theme color variables */
+        :root {
+            --pst-color-primary: #306998;
+            --pst-color-secondary: #f8f9fa;
+            --pst-color-success: #28a745;
+            --pst-color-info: #17a2b8;
+            --pst-color-warning: #ffc107;
+            --pst-color-danger: #dc3545;
+            --pst-color-background: #ffffff;
+            --pst-color-on-background: #212529;
+            --pst-color-surface: #f8f9fa;
+            --pst-color-on-surface: #495057;
+            --pst-color-text-base: #212529;
+            --pst-color-text-muted: #6c757d;
+            --pst-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --pst-font-family-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --pst-font-size-base: 1rem;
+            --pst-font-size-h1: 2.625rem;
+            --pst-font-size-h2: 2.125rem;
+            --pst-font-size-h3: 1.75rem;
+        }
+        
+        [data-theme="dark"] {
+            --pst-color-background: #121212;
+            --pst-color-on-background: #ffffff;
+            --pst-color-surface: #1e1e1e;
+            --pst-color-on-surface: #e0e0e0;
+            --pst-color-text-base: #ffffff;
+            --pst-color-text-muted: #a0a0a0;
+            --pst-color-secondary: #2d2d2d;
+        }
+        
+        body {
+            font-family: var(--pst-font-family-base);
+            font-size: var(--pst-font-size-base);
+            line-height: 1.65;
+            color: var(--pst-color-text-base);
+            background-color: var(--pst-color-background);
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Header styles matching PyData theme */
+        .navbar {
+            background-color: var(--pst-color-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.25rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        .navbar-brand:hover {
+            opacity: 0.8;
+        }
+        
+        .navbar-logo {
+            height: 32px;
+            width: auto;
+        }
+        
+        .navbar-nav {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Search bar styling */
+        .search-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            border-radius: 0.25rem;
+            width: 250px;
+            transition: all 0.2s;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+        
+        /* Main content area */
+        .bd-content {
+            padding: 2rem 0;
+        }
+        
+        .bd-header-article {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--pst-color-surface);
+        }
+        
+        .bd-header-article h1 {
+            font-size: var(--pst-font-size-h1);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--pst-color-text-base);
+        }
+        
+        .bd-header-article p {
+            font-size: 1.1rem;
+            color: var(--pst-color-text-muted);
+            margin: 0;
+        }
+        
+        /* Sidebar styling */
+        .bd-sidebar {
+            background-color: var(--pst-color-surface);
+            border-right: 1px solid var(--pst-color-surface);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .bd-sidebar h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--pst-color-text-base);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .bd-sidebar h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--pst-color-text-base);
+        }
+        
+        /* Filter styling */
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+        
+        .filter-checkbox {
+            display: none;
+        }
+        
+        .filter-label {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            background-color: var(--pst-color-background);
+            border: 1px solid var(--pst-color-surface);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-label:hover {
+            background-color: var(--pst-color-surface);
+        }
+        
+        .filter-checkbox:checked + .filter-label {
+            background-color: var(--pst-color-primary);
+            color: white;
+            border-color: var(--pst-color-primary);
+        }
+        
+        .domain-filter {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--pst-color-background);
+            border: 1px solid var(--pst-color-surface);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+        }
+        
+        .domain-filter:hover {
+            background-color: var(--pst-color-surface);
+        }
+        
+        .domain-filter.active {
+            background-color: var(--pst-color-primary);
+            color: white;
+            border-color: var(--pst-color-primary);
+        }
+        
+        .complexity-radio {
+            margin-right: 0.5rem;
+        }
+        
+        .complexity-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Card styling */
+        .model-card {
+            background-color: var(--pst-color-background);
+            border: 1px solid var(--pst-color-surface);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .model-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-color: var(--pst-color-primary);
+        }
+        
+        .model-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .model-card-content {
+            padding: 1.5rem;
+        }
+        
+        .status-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+        
+        .status-showcase {
+            background-color: rgba(255, 193, 7, 0.9);
+            color: #000;
+        }
+        
+        .status-verified {
+            background-color: rgba(40, 167, 69, 0.9);
+            color: white;
+        }
+        
+        .status-incubator {
+            background-color: rgba(23, 162, 184, 0.9);
+            color: white;
+        }
+        
+        .status-needs-upgrade {
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+        }
+        
+        .model-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--pst-color-text-base);
+        }
+        
+        .model-author {
+            color: var(--pst-color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .model-author a {
+            color: var(--pst-color-primary);
+            text-decoration: none;
+        }
+        
+        .model-author a:hover {
+            text-decoration: underline;
+        }
+        
+        .model-description {
+            color: var(--pst-color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .model-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            background-color: var(--pst-color-surface);
+            color: var(--pst-color-text-muted);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .model-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--pst-color-text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--pst-color-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-primary:hover {
+            background-color: #255278;
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Theme toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                display: none;
+            }
+            
+            .search-input {
+                width: 150px;
+            }
+            
+            .bd-sidebar {
+                position: static;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo and Brand -->
+                <a href="#" class="navbar-brand">
+                    <img src="mesa_logo.webp" alt="Mesa" class="navbar-logo">
+                    <span>Mesa</span>
+                </a>
+                
+                <!-- Navigation Links -->
+                <ul class="navbar-nav">
+                    <li><a href="#" class="nav-link active">Examples Gallery</a></li>
+                    <li><a href="#" class="nav-link">Overview</a></li>
+                    <li><a href="#" class="nav-link">Tutorials</a></li>
+                    <li><a href="#" class="nav-link">API Documentation</a></li>
+                </ul>
+                
+                <!-- Search and Theme Toggle -->
+                <div class="flex items-center gap-3">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search models...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 bd-content">
+        <div class="flex gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="bd-sidebar w-80 flex-shrink-0">
+                <div class="filter-section">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+                    
+                    <!-- Status Filter -->
+                    <div>
+                        <h4>Status</h4>
+                        <div>
+                            <input type="checkbox" id="status-showcase" class="filter-checkbox" data-filter="status" value="showcase">
+                            <label for="status-showcase" class="filter-label">⭐ Showcase</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="status-verified" class="filter-checkbox" data-filter="status" value="verified">
+                            <label for="status-verified" class="filter-label">✓ Verified</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="status-incubator" class="filter-checkbox" data-filter="status" value="incubator">
+                            <label for="status-incubator" class="filter-label">� Incubator</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="status-needs-upgrade" class="filter-checkbox" data-filter="status" value="needs_upgrade">
+                            <label for="status-needs-upgrade" class="filter-label">⚡ Needs Upgrade</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>Domain</h4>
+                    <div class="flex flex-wrap">
+                        <button class="domain-filter" data-domain="Economics">Economics</button>
+                        <button class="domain-filter" data-domain="Social Dynamics">Social Dynamics</button>
+                        <button class="domain-filter" data-domain="Biology">Biology</button>
+                        <button class="domain-filter" data-domain="Urban Planning">Urban Planning</button>
+                        <button class="domain-filter" data-domain="Networks">Networks</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>Complexity</h4>
+                    <div>
+                        <label class="complexity-label">
+                            <input type="radio" name="complexity" value="all" class="complexity-radio" checked>
+                            All Levels
+                        </label>
+                        <label class="complexity-label">
+                            <input type="radio" name="complexity" value="Beginner" class="complexity-radio">
+                            Beginner
+                        </label>
+                        <label class="complexity-label">
+                            <input type="radio" name="complexity" value="Intermediate" class="complexity-radio">
+                            Intermediate
+                        </label>
+                        <label class="complexity-label">
+                            <input type="radio" name="complexity" value="Advanced" class="complexity-radio">
+                            Advanced
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>Mesa Features</h4>
+                    <select class="w-full p-2 border border-gray-300 rounded" style="background-color: var(--pst-color-background); color: var(--pst-color-text-base); border-color: var(--pst-color-surface);">
+                        <option value="">All Features</option>
+                        <option value="MultiGrid">MultiGrid</option>
+                        <option value="ContinuousSpace">ContinuousSpace</option>
+                        <option value="Solara">Solara</option>
+                        <option value="NetworkX">NetworkX</option>
+                        <option value="DataCollection">DataCollection</option>
+                        <option value="EventScheduling">EventScheduling</option>
+                        <option value="PropertyLayers">PropertyLayers</option>
+                    </select>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1">
+                <!-- Page Header -->
+                <header class="bd-header-article">
+                    <h1>Mesa Examples Gallery</h1>
+                    <p>Explore, run, and learn from community-built agent-based models</p>
+                </header>
+                
+                <!-- Results Count -->
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-muted"><span id="modelCount">6</span> models found</p>
+                    <div class="flex gap-2">
+                        <button class="p-2 border rounded hover:bg-gray-100" style="border-color: var(--pst-color-surface);">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="p-2 border rounded hover:bg-gray-100" style="border-color: var(--pst-color-surface);">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Model Grid -->
+                <div id="modelGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Model cards will be inserted here by JavaScript -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Sample data matching Mesa's professional style
+        const models = [
+            {
+                "id": "llm-schelling",
+                "name": "LLM Schelling Segregation",
+                "author": "@abhinavk0220",
+                "author_url": "https://github.com/abhinavk0220",
+                "domain": "Social Dynamics",
+                "complexity": "Intermediate",
+                "features": ["MultiGrid", "Solara", "NetworkX"],
+                "description": "An agent-based model exploring segregation patterns using large language models to simulate human decision-making and social preferences.",
+                "status": "showcase",
+                "thumbnail": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+                "last_tested": "3 days ago",
+                "mesa_version": "3.1",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/llm-schelling",
+                "keywords": ["segregation", "llm", "social", "preferences"],
+                "stars": 245
+            },
+            {
+                "id": "viral-spread",
+                "name": "Viral Spread in Networks",
+                "author": "@sarahchen",
+                "author_url": "https://github.com/sarahchen",
+                "domain": "Biology",
+                "complexity": "Advanced",
+                "features": ["NetworkX", "ContinuousSpace", "DataCollection"],
+                "description": "Modeling viral transmission through complex social networks with realistic contact patterns and intervention strategies.",
+                "status": "verified",
+                "thumbnail": "https://images.unsplash.com/photo-1584118624036-cbf33d4b5f6c?w=400&h=250&fit=crop",
+                "last_tested": "1 week ago",
+                "mesa_version": "3.1",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/viral-spread",
+                "keywords": ["epidemiology", "networks", "virus", "transmission"],
+                "stars": 189
+            },
+            {
+                "id": "market-dynamics",
+                "name": "Agent-Based Market Dynamics",
+                "author": "@alexecon",
+                "author_url": "https://github.com/alexecon",
+                "domain": "Economics",
+                "complexity": "Advanced",
+                "features": ["Solara", "DataCollection", "EventScheduling"],
+                "description": "Complex market simulation with heterogeneous agents, price discovery mechanisms, and emergent macroeconomic patterns.",
+                "status": "showcase",
+                "thumbnail": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=250&fit=crop",
+                "last_tested": "2 days ago",
+                "mesa_version": "3.1",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/market-dynamics",
+                "keywords": ["economics", "markets", "trading", "agents"],
+                "stars": 312
+            },
+            {
+                "id": "urban-growth",
+                "name": "Urban Growth Simulation",
+                "author": "@cityplanner",
+                "author_url": "https://github.com/cityplanner",
+                "domain": "Urban Planning",
+                "complexity": "Intermediate",
+                "features": ["MultiGrid", "PropertyLayers", "Solara"],
+                "description": "Simulating urban development patterns, land use changes, and the impact of zoning policies on city growth.",
+                "status": "verified",
+                "thumbnail": "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=250&fit=crop",
+                "last_tested": "5 days ago",
+                "mesa_version": "3.0",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/urban-growth",
+                "keywords": ["urban", "planning", "growth", "development"],
+                "stars": 156
+            },
+            {
+                "id": "ecosystem-dynamics",
+                "name": "Forest Ecosystem Dynamics",
+                "author": "@naturecoder",
+                "author_url": "https://github.com/naturecoder",
+                "domain": "Biology",
+                "complexity": "Beginner",
+                "features": ["MultiGrid", "Solara UI"],
+                "description": "Simple yet elegant model of forest succession, species competition, and the effects of climate disturbances.",
+                "status": "incubator",
+                "thumbnail": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop",
+                "last_tested": "2 weeks ago",
+                "mesa_version": "3.0",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/ecosystem-dynamics",
+                "keywords": ["ecology", "forest", "succession", "species"],
+                "stars": 98
+            },
+            {
+                "id": "traffic-flow",
+                "name": "Traffic Flow Optimization",
+                "author": "@transportai",
+                "author_url": "https://github.com/transportai",
+                "domain": "Urban Planning",
+                "complexity": "Advanced",
+                "features": ["ContinuousSpace", "NetworkX", "DataCollection"],
+                "description": "Modeling traffic patterns and testing optimization strategies for urban transportation networks.",
+                "status": "needs_upgrade",
+                "thumbnail": "https://images.unsplash.com/photo-1515488206535-9e5a40e22eaa?w=400&h=250&fit=crop",
+                "last_tested": "1 month ago",
+                "mesa_version": "2.5",
+                "github_url": "https://github.com/mesa/mesa-examples/tree/main/traffic-flow",
+                "keywords": ["traffic", "transportation", "optimization", "urban"],
+                "stars": 267
+            }
+        ];
+
+        function getStatusBadge(status) {
+            const badges = {
+                'showcase': '<span class="status-badge status-showcase">⭐ Showcase</span>',
+                'verified': '<span class="status-badge status-verified">✓ Verified</span>',
+                'incubator': '<span class="status-badge status-incubator">� Incubator</span>',
+                'needs_upgrade': '<span class="status-badge status-needs-upgrade">⚡ Needs Upgrade</span>'
+            };
+            return badges[status] || badges['verified'];
+        }
+
+        function getComplexityColor(complexity) {
+            const colors = {
+                'Beginner': 'bg-green-100 text-green-800',
+                'Intermediate': 'bg-yellow-100 text-yellow-800',
+                'Advanced': 'bg-red-100 text-red-800'
+            };
+            return colors[complexity] || 'bg-gray-100 text-gray-800';
+        }
+
+        function createModelCard(model) {
+            return `
+                <div class="model-card" data-status="${model.status}" data-domain="${model.domain}" data-complexity="${model.complexity}">
+                    <div class="relative">
+                        <img src="${model.thumbnail}" alt="${model.name}">
+                        ${getStatusBadge(model.status)}
+                    </div>
+                    <div class="model-card-content">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-medium uppercase tracking-wide" style="color: var(--pst-color-primary);">${model.domain}</span>
+                            <span class="px-2 py-1 text-xs font-medium rounded" style="background-color: var(--pst-color-surface); color: var(--pst-color-text-muted);">
+                                ${model.complexity}
+                            </span>
+                        </div>
+                        <h3 class="model-title">${model.name}</h3>
+                        <p class="model-author">
+                            <a href="${model.author_url}">
+                                <i class="fab fa-github"></i>
+                                ${model.author}
+                            </a>
+                        </p>
+                        <p class="model-description">${model.description}</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1" style="color: var(--pst-color-text-muted);">
+                                <i class="fas fa-star" style="color: #ffc107;"></i>
+                                <span>${model.stars}</span>
+                            </div>
+                        </div>
+                        <div class="model-tags">
+                            ${model.features.map(feature => `<span class="tag">${feature}</span>`).join('')}
+                        </div>
+                        <div class="model-meta">
+                            <span><i class="fas fa-clock"></i> 🔄 Last tested: ${model.last_tested}</span>
+                            <span>Mesa ${model.mesa_version}</span>
+                        </div>
+                        <a href="${model.github_url}" class="btn-primary">
+                            <i class="fas fa-code"></i>
+                            View Source Code
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderModels(modelsToRender = models) {
+            const grid = document.getElementById('modelGrid');
+            const count = document.getElementById('modelCount');
+            
+            if (modelsToRender.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12"><p style="color: var(--pst-color-text-muted);">No models found matching your criteria.</p></div>';
+                count.textContent = '0';
+                return;
+            }
+            
+            grid.innerHTML = modelsToRender.map(model => createModelCard(model)).join('');
+            count.textContent = modelsToRender.length;
+        }
+
+        // Filter functionality
+        function filterModels() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedStatuses = Array.from(document.querySelectorAll('.filter-checkbox:checked')).map(cb => cb.value);
+            const selectedDomains = Array.from(document.querySelectorAll('.domain-filter.active')).map(btn => btn.dataset.domain);
+            const selectedComplexity = document.querySelector('.complexity-radio:checked').value;
+            
+            let filtered = models.filter(model => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    model.name.toLowerCase().includes(searchTerm) ||
+                    model.description.toLowerCase().includes(searchTerm) ||
+                    model.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm));
+                
+                // Status filter
+                const matchesStatus = selectedStatuses.length === 0 || selectedStatuses.includes(model.status);
+                
+                // Domain filter
+                const matchesDomain = selectedDomains.length === 0 || selectedDomains.includes(model.domain);
+                
+                // Complexity filter
+                const matchesComplexity = selectedComplexity === 'all' || model.complexity === selectedComplexity;
+                
+                return matchesSearch && matchesStatus && matchesDomain && matchesComplexity;
+            });
+            
+            renderModels(filtered);
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterModels);
+        document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', filterModels);
+        });
+        document.querySelectorAll('.complexity-radio').forEach(radio => {
+            radio.addEventListener('change', filterModels);
+        });
+
+        // Domain filter toggle
+        document.querySelectorAll('.domain-filter').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.toggle('active');
+                filterModels();
+            });
+        });
+
+        // Initial render
+        renderModels();
+    </script>
+</body>
+</html>
