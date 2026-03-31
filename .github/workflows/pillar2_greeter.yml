@@ -1,4 +1,4 @@
-name: Pillar 2 - PR Greeter Bot
+name: PR Greeter Bot
 
 on:
   pull_request:
